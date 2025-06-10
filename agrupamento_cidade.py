@@ -1,17 +1,14 @@
 import pandas as pd
 
-# Carrega os dados
 df = pd.read_csv("dados_imoveis.csv")
 
-# Agrupar por município e calcular estatísticas
 agrupado = df.groupby('municipio').agg({
     'num_area': ['count', 'mean', 'sum'],
     'mod_fiscal': 'mean',
-    'ind_tipo': lambda x: x.value_counts().index[0],   # tipo mais comum
-    'ind_status': lambda x: x.value_counts().index[0]  # status mais comum
+    'ind_tipo': lambda x: x.value_counts().index[0],   
+    'ind_status': lambda x: x.value_counts().index[0]  
 })
 
-# Renomear colunas
 agrupado.columns = [
     'qtde_imoveis',
     'area_media',
@@ -21,10 +18,8 @@ agrupado.columns = [
     'status_mais_comum'
 ]
 
-# Ordenar por área total decrescente
 agrupado = agrupado.sort_values(by='area_total', ascending=False)
 
-# Exibir os primeiros resultados
 print(agrupado.head(50))
 
 import matplotlib.pyplot as plt
